@@ -1,27 +1,5 @@
-
 table {
   text-align: center;
-  border-right: 1px solid rgba(128,128,128,0.2);
-  border-bottom: 1px solid rgba(128,128,128,0.2);
-}
-th, .color-display {
-  border-right: 1px solid rgba(128,128,128,0.4);
-  border-bottom: 1px solid rgba(128,128,128,0.4);
-  background-color: #def;
-  padding: 4px;
-}
-.color-display {
-  font-family: mono;
-  font-size: 80%;
-}
-.color-display > .ansi-code, .color-display > .ansi-color {
-  display: inline-block;
-  text-align: left;
-}
-.color-display > .ansi-code {
-  min-width: 2.4em;
-}
-
-.color-display > .ansi-color {
-  min-width: 10em;
+  border: 1px solid rgba(196,196,196,0.4);
+  border-radius: 4px;
 }

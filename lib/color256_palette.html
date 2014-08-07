@@ -18,20 +18,16 @@
 
         height: 34px;
       }
-      .range-cell[disabled] {
-        background-color: rgba(180, 180, 196, 0.15);
-        color: #666;
-      }
-      .rgb-code {
-        padding: 3px;
-        font-family: mono;
-      }
-      .rgb-factor, .grayscale-code {
+      .rgb-factor {
         box-sizing: border-box;
         font-family: mono;
         text-align: right;
         width: 3.2em;
         padding: 0px 3px;
+        color: #444;
+      }
+      .range-cell[disabled] .rgb-factor {
+        color: #aaa;
       }
       .rgb-border-wrapper, .grayscale-border-wrapper {
         box-sizing: border-box;
@@ -59,9 +55,9 @@
         height: 100%;
       }
       .red-range-wrapper {
-        background: -moz-linear-gradient(left, #333, red);
-        background: -webkit-linear-gradient(left, #333, red);
-        background: linear-gradient(left, #333, red);
+        background: -moz-linear-gradient(left, #111, red);
+        background: -webkit-linear-gradient(left, #111, red);
+        background: linear-gradient(left, #111, red);
       }
       .range-cell[disabled] .red-range-wrapper {
         background: -moz-linear-gradient(left, #666, #966);
@@ -69,9 +65,9 @@
         background: linear-gradient(left, #666, #966);
       }
       .green-range-wrapper {
-        background: -moz-linear-gradient(left, #333, green);
-        background: -webkit-linear-gradient(left, #333, green);
-        background: linear-gradient(left, #333, green);
+        background: -moz-linear-gradient(left, #111, green);
+        background: -webkit-linear-gradient(left, #111, green);
+        background: linear-gradient(left, #111, green);
       }
       .range-cell[disabled] .green-range-wrapper {
         background: -moz-linear-gradient(left, #666, #696);
@@ -79,9 +75,9 @@
         background: linear-gradient(left, #666, #696);
       }
       .blue-range-wrapper {
-        background: -moz-linear-gradient(left, #333, blue);
-        background: -webkit-linear-gradient(left, #333, blue);
-        background: linear-gradient(left, #333, blue);
+        background: -moz-linear-gradient(left, #111, blue);
+        background: -webkit-linear-gradient(left, #111, blue);
+        background: linear-gradient(left, #111, blue);
       }
       .range-cell[disabled] .blue-range-wrapper {
         background: -moz-linear-gradient(left, #666, #669);
@@ -107,16 +103,8 @@
     </style>
     <color-palette>
       <table>
-        <thead>
-          <th>Code</th>
-          <td class="color-display" colspan="8">
-            Code:  <span class="ansi-code">{{ansiCode.code}}</span>
-            Color: <span class="ansi-color">{{ansiCode.color}}</span>
-          </td>
-        </thead>
         <tbody class="standard-colors">
           <tr>
-            <th>0-7</th>
             <td><color-palette-cell x-code="0"></color-palette-cell></td>
             <td><color-palette-cell x-code="1"></color-palette-cell></td>
             <td><color-palette-cell x-code="2"></color-palette-cell></td>
@@ -127,7 +115,6 @@
             <td><color-palette-cell x-code="7"></color-palette-cell></td>
           </tr>
           <tr>
-            <th>8-15</th>
             <td><color-palette-cell x-code="8"></color-palette-cell></td>
             <td><color-palette-cell x-code="9"></color-palette-cell></td>
             <td><color-palette-cell x-code="10"></color-palette-cell></td>
@@ -140,9 +127,7 @@
         </tbody>
         <tbody class="rgb-colors">
           <tr>
-            <th>16-231</th>
             <td>
-              <div class="rgb-code">{{rgbCode.code}}</div>
               <color-palette-cell x-code="{{rgbCode.code}}">
               </color-palette-cell>
             </td>
@@ -192,14 +177,12 @@
         </tbody>
         <tbody class="grayscale-colors">
           <tr>
-            <th>232-255</th>
             <td>
               <color-palette-cell x-code="{{grayscaleCode.code}}">
               </color-palette-cell>
             </td>
             <td colspan="7" class="range-cell" disabled?="{{!grayscaleCell.selected}}">
               <div>
-                <div class="grayscale-code">{{grayscaleCode.code}}</div>
                 <div class="grayscale-border-wrapper">
                   <div class="grayscale-range-wrapper">
                     <input class="grayscale-range" type="range"
