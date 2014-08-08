@@ -1,5 +1,5 @@
 name: ansi_color_palette
-version: 0.1.0
+version: 0.1.1-dev
 description: A custom element to pick ANSI colors
 author: Keiichiro Ui <keiichiro.ui@gmail.com>
 homepage: https://github.com/kui/ansi_color_palette
