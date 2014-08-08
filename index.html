@@ -8,6 +8,7 @@
     
     
     
+    
   </head>
   <body><script src="packages/web_components/platform.js"></script><script src="packages/web_components/dart_support.js"></script>
 
@@ -391,7 +392,8 @@ html /deep/ [segment], html /deep/ segment {
   text-align: center;
   border: 1px solid rgba(196,196,196,0.4);
   border-radius: 4px;
-}</style>
+}
+</style>
     <color-palette>
       <table>
         <tbody>
@@ -422,7 +424,8 @@ html /deep/ [segment], html /deep/ segment {
   text-align: center;
   border: 1px solid rgba(196,196,196,0.4);
   border-radius: 4px;
-}</style>
+}
+</style>
     <color-palette>
       <table>
         <tbody><tr>
@@ -463,7 +466,8 @@ html /deep/ [segment], html /deep/ segment {
   text-align: center;
   border: 1px solid rgba(196,196,196,0.4);
   border-radius: 4px;
-}</style>
+}
+</style>
     <style>
       .range-cell > div {
         display: -webkit-flex;
@@ -604,7 +608,7 @@ html /deep/ [segment], html /deep/ segment {
                 <div class="rgb-factor">{{greenFactor}}</div>
                 <div class="rgb-border-wrapper">
                   <div class="green-range-wrapper">
-                    <input class="green-range" type="range" min="0" max="5" step="1" value="3" disabled?="{{!rgbCell.selected}}" list="rgb-range-data" on-input="{{notifyGreenChange}}">
+                    <input class="green-range" type="range" min="0" max="5" step="1" value="0" disabled?="{{!rgbCell.selected}}" list="rgb-range-data" on-input="{{notifyGreenChange}}">
                   </div>
                 </div>
               </div>
@@ -633,7 +637,7 @@ html /deep/ [segment], html /deep/ segment {
               <div>
                 <div class="grayscale-border-wrapper">
                   <div class="grayscale-range-wrapper">
-                    <input class="grayscale-range" type="range" min="232" max="255" step="1" value="245" disabled?="{{!grayscaleCell.selected}}" on-input="{{notifyGrayScaleChange}}">
+                    <input class="grayscale-range" type="range" min="232" max="255" step="1" value="234" disabled?="{{!grayscaleCell.selected}}" on-input="{{notifyGrayScaleChange}}">
                   </div>
                 </div>
               </div>
@@ -647,21 +651,52 @@ html /deep/ [segment], html /deep/ segment {
 </polymer-element>
 
 
+
+
+<polymer-element name="ansi-color-palette" attributes="colorSpace">
+  <template>
+    <template if="{{colorSpace != '16' &amp;&amp; colorSpace != '256'}}">
+      <color8-palette></color8-palette>
+    </template>
+    <template if="{{colorSpace == '16'}}">
+      <color16-palette></color16-palette>
+    </template>
+    <template if="{{colorSpace == '256'}}">
+      <color256-palette></color256-palette>
+    </template>
+  </template>
+  
+</polymer-element>
+
+
     <h1>ANSI Color Palette Example</h1>
 
     <p><a href="https://github.com/kui/ansi_color_palette/blob/master/example/index.html">Source code</a></p>
 
-    <h1>8-colors palette</h1>
+    <h1><code>&lt;color8-palette&gt;</code></h1>
     <color8-palette></color8-palette>
     Code: <input type="number" id="color8-code" min="0" max="7">
 
-    <h1>16-colors palette</h1>
+    <h1><code>&lt;color16-palette&gt;</code></h1>
     <color16-palette></color16-palette>
     Code: <input type="number" id="color16-code" min="0" max="15">
 
-    <h1>256-colors palette</h1>
+    <h1><code>&lt;color256-palette&gt;</code></h1>
     <color256-palette></color256-palette>
     Code: <input type="number" id="color256-code" min="0" max="255">
+
+    <h1><code>&lt;ansi-color-palette&gt;</code></h1>
+    <p>
+      colorSpace:
+      <select id="color-space">
+        <option value="8">8</option>
+        <option value="16">16</option>
+        <option value="256">256</option>
+        <option value="invalid">Invalid</option>
+      </select>
+    </p>
+    <ansi-color-palette></ansi-color-palette>
+    Code: <input type="number" id="ansi-color-code" min="0" max="255">
 
     
 
