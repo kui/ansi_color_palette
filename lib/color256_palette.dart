@@ -135,6 +135,11 @@ class Color256PaletteElement extends PaletteContainer {
 
   @override
   selectByCode(AnsiColorCode code) {
+    if (code == null) {
+      super.selectByCode(null);
+      return;
+    }
+
     final c = code.code;
     if (code.isStandard) {
       super.selectByCode(code);

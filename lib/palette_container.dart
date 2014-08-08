@@ -43,12 +43,13 @@ abstract class PaletteContainer extends PolymerElement implements ColorPaletteEl
   }
 
   @override
-  set selectedCell(cell) => palette.selectedCell = cell;
+  set selectedCell(ColorPaletteCellElement cell) =>
+      palette.selectedCell = cell;
 
   @reflectable
   AnsiColorCode get ansiCode => getXCodeAttr(selectedCell);
 
-  set ansiCode(code) => selectByCode(code);
+  set ansiCode(AnsiColorCode code) => selectByCode(code);
 
   PaletteContainer.created() : super.created();
 
@@ -86,7 +87,7 @@ abstract class PaletteContainer extends PolymerElement implements ColorPaletteEl
   }
 
   selectByCode(AnsiColorCode code) {
-    final cell = getCellByCode(code.code);
+    final cell = (code == null) ? null : getCellByCode(code.code);
     select(cell);
   }
   selectByCodeInt(int code) =>

@@ -10,6 +10,7 @@
     <link rel="import" href="packages/ansi_color_palette/color8_palette.html">
     <link rel="import" href="packages/ansi_color_palette/color16_palette.html">
     <link rel="import" href="packages/ansi_color_palette/color256_palette.html">
+    <link rel="import" href="packages/ansi_color_palette/ansi_color_palette.html">
   </head>
   <body>
 
@@ -17,22 +18,35 @@
 
     <p><a href="https://github.com/kui/ansi_color_palette/blob/master/example/index.html">Source code</a></p>
 
-    <h1>8-colors palette</h1>
+    <h1><code>&lt;color8-palette&gt;</code></h1>
     <color8-palette></color8-palette>
     Code: <input type="number" id="color8-code" min="0" max="7">
 
-    <h1>16-colors palette</h1>
+    <h1><code>&lt;color16-palette&gt;</code></h1>
     <color16-palette></color16-palette>
     Code: <input type="number" id="color16-code" min="0" max="15">
 
-    <h1>256-colors palette</h1>
+    <h1><code>&lt;color256-palette&gt;</code></h1>
     <color256-palette></color256-palette>
     Code: <input type="number" id="color256-code" min="0" max="255">
+
+    <h1><code>&lt;ansi-color-palette&gt;</code></h1>
+    <p>
+      colorSpace:
+      <select id="color-space">
+        <option value="8">8</option>
+        <option value="16">16</option>
+        <option value="256">256</option>
+        <option value="invalid">Invalid</option>
+      </select>
+    </p>
+    <ansi-color-palette></ansi-color-palette>
+    Code: <input type="number" id="ansi-color-code" min="0" max="255">
 
     <script type="application/dart">
       import 'package:polymer/polymer.dart';
       import 'package:ansi_color_palette/ansi_color_code.dart';
-      import 'package:ansi_color_palette/color256_palette.dart';
+      import 'package:ansi_color_palette/ansi_color_palette.dart';
       import 'package:ansi_color_palette/palette_container.dart';
       import 'dart:html';
 
@@ -55,18 +69,26 @@
             }, {
               #palette : querySelector('color256-palette'),
               #input   : querySelector('#color256-code')
+            }, {
+              #palette : querySelector('ansi-color-palette'),
+              #input   : querySelector('#ansi-color-code')
             }
           ].forEach((Map m) {
             PaletteContainer palette = m[#palette];
             NumberInputElement input = m[#input];
             palette.onColorChange.listen((e) {
-              input.value = e.newCode.code.toString();
+              input.value = (e.newCode == null) ? '' : e.newCode.code.toString();
             });
             input.onChange.listen((e) {
               palette.selectByCodeString(input.value);
             });
           });
 
+          final AnsiColorPaletteElement palette = querySelector('ansi-color-palette');
+          querySelector('#color-space').onChange.listen((e) {
+            SelectElement select = e.target;
+            palette.colorSpace = select.value;
+          });
         });
       }
     </script>
