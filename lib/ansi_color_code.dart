@@ -1,5 +1,8 @@
 library ansi_color_palette.ansi_color_code;
 
+String getColorFromAnsiCode(int code) =>
+  new AnsiColorCode(code).color;
+
 class AnsiColorCode {
   static const STANDARD_COLORS =
       const ['rgb(0,0,0)', 'rgb(187,0,0)', 'rgb(0,187,0)', 'rgb(187,187,0)',
