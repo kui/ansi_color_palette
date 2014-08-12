@@ -23,18 +23,16 @@ class AnsiColorPaletteElement extends PolymerElement implements PaletteContainer
   AnsiColorPaletteElement.created() : super.created();
 
   @override
-  ready() {
-    _containerObserver = new MutationObserver(_handleContainerMutation);
-  }
-
-  @override
   attached() {
+    super.attached();
     _initPalette(_container);
+    _containerObserver = new MutationObserver(_handleContainerMutation);
     _containerObserver.observe(shadowRoot, childList: true);
   }
 
   @override
   detached() {
+    super.detached();
     _containerObserver.disconnect();
   }
 
@@ -66,8 +64,9 @@ class AnsiColorPaletteElement extends PolymerElement implements PaletteContainer
     if (_container != null) _container.ansiCode = ansiCode;
   }
 
-  PaletteContainer get _container => shadowRoot.querySelector(
-      'color8-palette,color16-palette,color256-palette');
+  PaletteContainer get _container => (shadowRoot == null) ? null :
+      shadowRoot.querySelector(
+          'color8-palette,color16-palette,color256-palette');
 
   @override
   Stream<AnsiColorChangeEvent> get onColorChange =>
@@ -75,28 +74,33 @@ class AnsiColorPaletteElement extends PolymerElement implements PaletteContainer
 
   // delegate to _paletteContainer
   @override
-  ColorPaletteElement get palette => _container.palette;
+  ColorPaletteElement get palette =>
+      _container == null ? null : _container.palette;
   @override
-  ColorPaletteCellElement get selectedCell => _container.selectedCell;
+  ColorPaletteCellElement get selectedCell =>
+      _container == null ? null : _container.selectedCell;
   @override
-  List<ColorPaletteCellElement> get cells => _container.cells;
+  List<ColorPaletteCellElement> get cells =>
+      _container == null ? null : _container.cells;
   @override
-  String get color => _container.color;
+  String get color => _container == null ? null : _container.color;
   @override
-  set selectedCell(ColorPaletteCellElement cell) =>
-      _container.selectedCell = cell;
-  @override
-  void cellXCodeChangeHandler(ColorPaletteCellElement cell) =>
-      _container.cellXCodeChangeHandler(cell);
+  set selectedCell(ColorPaletteCellElement cell) {
+    if (_container == null) return;
+    _container.selectedCell = cell;
+  }
   @override
   ColorPaletteCellElement getCellByCode(int code) =>
-      _container.getCellByCode(code);
+      _container == null ? null : _container.getCellByCode(code);
   @override
-  select(ColorPaletteCellElement cell) => _container.select(cell);
+  selectByCode(AnsiColorCode code) =>
+      _container == null ? null : _container.selectByCode(code);
   @override
-  selectByCode(AnsiColorCode code) => _container.selectByCode(code);
+  selectByCodeInt(int code) =>
+      _container == null ? null : _container.selectByCodeInt(code);
   @override
-  selectByCodeInt(int code) => _container.selectByCodeInt(code);
+  selectByCodeString(String code) =>
+      _container == null ? null : _container.selectByCodeString(code);
   @override
-  selectByCodeString(String code) => _container.selectByCodeString(code);
+  selectedCellChanged(old) { }
 }

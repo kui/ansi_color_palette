@@ -19,18 +19,22 @@
     <p><a href="https://github.com/kui/ansi_color_palette/blob/master/example/index.html">Source code</a></p>
 
     <h1><code>&lt;color8-palette&gt;</code></h1>
+    <button id="deselect-color8">De-select</button>
     <color8-palette></color8-palette>
     Code: <input type="number" id="color8-code" min="0" max="7">
 
     <h1><code>&lt;color16-palette&gt;</code></h1>
+    <button id="deselect-color16">De-select</button>
     <color16-palette></color16-palette>
     Code: <input type="number" id="color16-code" min="0" max="15">
 
     <h1><code>&lt;color256-palette&gt;</code></h1>
+    <button id="deselect-color256">De-select</button>
     <color256-palette></color256-palette>
     Code: <input type="number" id="color256-code" min="0" max="255">
 
     <h1><code>&lt;ansi-color-palette&gt;</code></h1>
+    <button id="deselect-ansi-color">De-select</button>
     <p>
       colorSpace:
       <select id="color-space">
@@ -51,44 +55,55 @@
       import 'dart:html';
 
       main() {
-        initPolymer()..run(() {
-          querySelectorAll('color8-palette, color16-palette, color256-palette')
-            .forEach((PaletteContainer e) {
-              e.onColorChange.listen((e) {
-                print('old: ${e.oldCode}, new: ${e.newCode}');
-              });
-            });
+        initPolymer()
+          .run(polymerMain);
+      }
 
-          [
-            {
-              #palette : querySelector('color8-palette'),
-              #input   : querySelector('#color8-code')
-            }, {
-              #palette : querySelector('color16-palette'),
-              #input   : querySelector('#color16-code')
-            }, {
-              #palette : querySelector('color256-palette'),
-              #input   : querySelector('#color256-code')
-            }, {
-              #palette : querySelector('ansi-color-palette'),
-              #input   : querySelector('#ansi-color-code')
-            }
-          ].forEach((Map m) {
-            PaletteContainer palette = m[#palette];
-            NumberInputElement input = m[#input];
-            palette.onColorChange.listen((e) {
-              input.value = (e.newCode == null) ? '' : e.newCode.code.toString();
-            });
-            input.onChange.listen((e) {
-              palette.selectByCodeString(input.value);
+      polymerMain() {
+        querySelectorAll('color8-palette, color16-palette, color256-palette')
+          .forEach((PaletteContainer c) {
+            c.onColorChange.listen((e) {
+              print('old: ${e.oldCode}, new: ${e.newCode}');
             });
           });
 
-          final AnsiColorPaletteElement palette = querySelector('ansi-color-palette');
-          querySelector('#color-space').onChange.listen((e) {
-            SelectElement select = e.target;
-            palette.colorSpace = select.value;
+        [
+          {
+            #deselect : querySelector('#deselect-color8'),
+            #palette : querySelector('color8-palette'),
+            #input   : querySelector('#color8-code')
+          }, {
+            #deselect : querySelector('#deselect-color16'),
+            #palette : querySelector('color16-palette'),
+            #input   : querySelector('#color16-code')
+          }, {
+            #deselect : querySelector('#deselect-color256'),
+            #palette : querySelector('color256-palette'),
+            #input   : querySelector('#color256-code')
+          }, {
+            #deselect : querySelector('#deselect-ansi-color'),
+            #palette : querySelector('ansi-color-palette'),
+            #input   : querySelector('#ansi-color-code')
+          }
+        ].forEach((Map m) {
+          ButtonElement deselect = m[#deselect];
+          PaletteContainer palette = m[#palette];
+          NumberInputElement input = m[#input];
+          deselect.onClick.listen((e) {
+            palette.selectedCell = null;
           });
+          palette.onColorChange.listen((e) {
+            input.value = (e.newCode == null) ? '' : e.newCode.code.toString();
+          });
+          input.onChange.listen((e) {
+            palette.selectByCodeString(input.value);
+          });
+        });
+
+        final AnsiColorPaletteElement palette = querySelector('ansi-color-palette');
+        querySelector('#color-space').onChange.listen((e) {
+          SelectElement select = e.target;
+          palette.colorSpace = select.value;
         });
       }
     </script>

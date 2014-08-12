@@ -29,7 +29,6 @@ class Color256PaletteElement extends PaletteContainer {
       colorChangeController.stream;
 
   @override
-  @reflectable
   AnsiColorCode get ansiCode => getXCodeAttr(selectedCell);
 
   // rgb
@@ -87,17 +86,6 @@ class Color256PaletteElement extends PaletteContainer {
       .map(convertColorChangeEvnetToAnsi)
       .listen(colorChangeController.add);
 
-    changes
-      .expand((r) => r)
-      .where((r) => r is PropertyChangeRecord)
-      .listen((PropertyChangeRecord r) {
-        if (r.name == #rgbCode) {
-          _notifyCodeChange(rgbCell, r.oldValue, r.newValue);
-        } else if (r.name == #grayscaleCode) {
-          _notifyCodeChange(grayscaleCell, r.oldValue, r.newValue);
-        }
-      });
-
     rgbCell.changes
       .expand((r) => r)
       .where((r) => r is PropertyChangeRecord)
@@ -144,7 +132,7 @@ class Color256PaletteElement extends PaletteContainer {
     if (code.isStandard) {
       super.selectByCode(code);
     } else if (code.isRGB) {
-      select(rgbCell);
+      selectedCell = rgbCell;
       redRange.value = code.redFactor.toString();
       greenRange.value = code.greenFactor.toString();
       blueRange.value = code.blueFactor.toString();
@@ -152,10 +140,17 @@ class Color256PaletteElement extends PaletteContainer {
       notifyGreenChange();
       notifyBlueChange();
     } else { // if code.isGrayscale
-      select(grayscaleCell);
+      selectedCell = grayscaleCell;
       grayscaleRange.value = c.toString();
       notifyGrayScaleChange();
     }
+  }
+
+  rgbCodeChanged(oldCode) {
+    _notifyCodeChange(rgbCell, oldCode, rgbCode);
+  }
+  grayscaleCodeChanged(oldCode) {
+    _notifyCodeChange(grayscaleCell, oldCode, grayscaleCode);
   }
 
   void notifyRedChange() {
@@ -208,14 +203,13 @@ class Color256PaletteElement extends PaletteContainer {
       int.parse(e.value, radix: 10, onError: (_) => null);
 
   void _notifyCodeChange(ColorPaletteCellElement cell, AnsiColorCode oldCode, AnsiColorCode newCode) {
-    if (oldCode == newCode) return;
+    if (oldCode == newCode || cell == null) return;
     async((_) {
       if (!cell.selected) return;
       colorChangeController.add(new AnsiColorChangeEvent(
         oldCell: cell, oldCode: oldCode,
         newCell: cell, newCode: newCode
       ));
-      notifyPropertyChange(#ansiCode, oldCode, newCode);
     });
   }
 
