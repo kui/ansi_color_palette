@@ -79,7 +79,7 @@ abstract class PaletteContainer extends PolymerElement implements ColorPaletteEl
   selectByCodeInt(int code) =>
       selectByCode(new AnsiColorCode(code));
   selectByCodeString(String code) =>
-      selectByCode(new AnsiColorCode.fromString(code, radix: 10));
+      selectByCode(new AnsiColorCode.fromCodeString(code, radix: 10));
 
   ColorPaletteCellElement getCellByCode(int code) =>
     cells.firstWhere((c) {
@@ -92,7 +92,7 @@ AnsiColorCode getXCodeAttr(ColorPaletteCellElement e) {
   if (e == null) return null;
   String a = e.getAttribute(PaletteContainer.X_CODE_ATTR_NAME);
   if (a == null || a.isEmpty) return null;
-  return new AnsiColorCode.fromString(a, radix: 10);
+  return new AnsiColorCode.fromCodeString(a, radix: 10);
 }
 
 void cellXCodeChangeHandler(ColorPaletteCellElement cell) {

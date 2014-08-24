@@ -72,7 +72,7 @@ class Color256PaletteElement extends PaletteContainer {
   AnsiColorCode get _grayscaleCode {
     String v = grayscaleRange.value;
     if (v == null || v.isEmpty) return DEFAULT_GRAYSCALE;
-    return new AnsiColorCode.fromString(v, radix: 10);
+    return new AnsiColorCode.fromCodeString(v, radix: 10);
   }
 
   //

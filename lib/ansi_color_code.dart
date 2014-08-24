@@ -1,16 +1,22 @@
 library ansi_color_palette.ansi_color_code;
 
-String getColorFromAnsiCode(int code) =>
-  new AnsiColorCode(code).color;
+String getColorFromAnsiCode(int code) => AnsiColorCode.CODE_TO_COLOR[code];
+int getAnsiCodeFromColor(String color) => AnsiColorCode.COLOR_TO_CODE[color];
 
 class AnsiColorCode {
   static const STANDARD_COLORS =
-      const ['rgb(0,0,0)', 'rgb(187,0,0)', 'rgb(0,187,0)', 'rgb(187,187,0)',
-             'rgb(0,0,187)', 'rgb(187,0,187)', 'rgb(0,187,187)', 'rgb(187,187,187)',
-             'rgb(85,85,85)', 'rgb(255,85,85)', 'rgb(85,255,85)', 'rgb(255,255,85)',
-             'rgb(85,85,255)', 'rgb(255,85,255)', 'rgb(85,255,255)', 'rgb(255,255,255)'];
+      const ['#000', '#c00', '#0c0', '#cc0', '#00c', '#c0c', '#0cc', '#ccc',
+             '#666', '#f66', '#6f6', '#ff6', '#66f', '#f6f', '#6ff', '#fff'];
   static const RGB_STEP = 255 / 5;
-  static const GRAYSCALE_STEP = 255 / 23;
+  static const GRAYSCALE_STEP = 100 / 23; // lightness
+  static final List<String> CODE_TO_COLOR =
+    new List.generate(256, (code) => _color(code), growable: false);
+  static final Map<String, int> COLOR_TO_CODE = () {
+    final map = <String, int> {};
+    CODE_TO_COLOR.asMap().forEach((code, color) =>
+        map.putIfAbsent(color, () => code));
+    return map;
+  }();
 
   final int code;
 
@@ -23,19 +29,12 @@ class AnsiColorCode {
       throw new ArgumentError('"code" is expected less than or equal to 255');
     }
   }
-  AnsiColorCode.fromString(String s, {int radix: 10}):
+  AnsiColorCode.fromCodeString(String s, {int radix: 10}):
     this(int.parse(s, radix: radix));
   AnsiColorCode.fromRGB(int r, int g, int b): this(r * 36 + g * 6 + b + 16);
+  AnsiColorCode.fromColorString(String color): this(getCode(color));
 
-  String get color {
-    if (code < 16) {
-      return _standardColor();
-    } else if (code < 232) {
-      return _rgbColor();
-    } else {
-      return _grayscaleColor();
-    }
-  }
+  String get color => CODE_TO_COLOR[code];
 
   bool get isStandard => code < 16;
   bool get isRGB => 16 <= code && code < 232;
@@ -45,9 +44,20 @@ class AnsiColorCode {
   int get greenFactor => isRGB ? (((code-16)%36)/6).floor() : null;
   int get blueFactor =>  isRGB ? ((code-16)%6).floor() : null;
 
-  String _standardColor() => STANDARD_COLORS[code];
+  static String getColorString(int code) => CODE_TO_COLOR[code];
+  static int getCode(String color) => COLOR_TO_CODE[color];
 
-  String _rgbColor() {
+  static String _color(int code) {
+    if (code < 16) {
+      return _standardColor(code);
+    } else if (code < 232) {
+      return _rgbColor(code);
+    } else {
+      return _grayscaleColor(code);
+    }
+  }
+  static String _standardColor(int code) => STANDARD_COLORS[code];
+  static String _rgbColor(int code) {
     final base = code - 16;
     final r = _rgbValue(base / 36);
     final gb = base % 36;
@@ -55,12 +65,11 @@ class AnsiColorCode {
     final b = _rgbValue(gb % 6);
     return 'rgb($r,$g,$b)';
   }
-  int _rgbValue(num f) => (RGB_STEP * f.floor()).round();
-
-  String _grayscaleColor() {
+  static int _rgbValue(num f) => (RGB_STEP * f.floor()).round();
+  static String _grayscaleColor(int code) {
     final base = code - 232;
     final v = (GRAYSCALE_STEP * base).round();
-    return 'rgb($v,$v,$v)';
+    return 'hsl(0,0%,$v%)';
   }
 
   @override
