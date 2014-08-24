@@ -10,13 +10,10 @@ class AnsiColorCode {
   static const RGB_STEP = 255 / 5;
   static const GRAYSCALE_STEP = 100 / 23; // lightness
   static final List<String> CODE_TO_COLOR =
-    new List.generate(256, (code) => _color(code), growable: false);
-  static final Map<String, int> COLOR_TO_CODE = () {
-    final map = <String, int> {};
-    CODE_TO_COLOR.asMap().forEach((code, color) =>
-        map.putIfAbsent(color, () => code));
-    return map;
-  }();
+      new List.generate(256, (code) => _color(code), growable: false);
+  static final Map<String, int> COLOR_TO_CODE =
+      new Map.fromIterable(CODE_TO_COLOR,
+          value: (k) => CODE_TO_COLOR.indexOf(k));
 
   final int code;
 
