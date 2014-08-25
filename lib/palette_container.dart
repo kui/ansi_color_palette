@@ -108,8 +108,45 @@ void cellXCodeChangeHandler(ColorPaletteCellElement cell) {
     final rgb = code.color;
     cell
         ..color = rgb
-        ..title = 'code:${code.code}, ${rgb}';
+        ..title = 'code:${code.code}, ${rgb}'
+        ..style.color = getFontColor(rgb)
+        ..style.textStrokeColor = 'transparent';
   }
+}
+
+// See http://www.w3.org/TR/AERT#color-contrast
+String getFontColor(String bgColor) {
+  final c = new Rgb.fromColorString(bgColor);
+  return FONT_COLORS
+      .firstWhere((f) => (f.lightness - c.lightness).abs() > 125)
+      .toString();
+}
+
+const List<Rgb> FONT_COLORS =
+  const [const Rgb(255, 255, 255), const Rgb(0, 0, 0)];
+
+class Rgb {
+  static final colorPickerElement = new CanvasElement(width: 1, height: 1);
+  static final colorPicker = colorPickerElement.getContext('2d');
+
+  final int red, green, blue;
+  final double lightness;
+
+  const Rgb(int red, int green, int blue) :
+    this.red = red,
+    this.green = green,
+    this.blue = blue,
+    this.lightness = (red * 299 + green * 587 + blue * 114) / 1000;
+
+  factory Rgb.fromColorString(String color) {
+    colorPicker.fillStyle = color;
+    colorPicker.fillRect(0, 0, 1, 1);
+    final d = colorPicker.getImageData(0, 0, 1, 1).data;
+    return new Rgb(d[0], d[1], d[2]);
+  }
+
+  @override
+  toString() => 'rgb($red,$green,$blue)';
 }
 
 AnsiColorChangeEvent convertColorChangeEvnetToAnsi(ColorChangeEvent e) =>
