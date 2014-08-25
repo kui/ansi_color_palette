@@ -66,7 +66,9 @@ abstract class PaletteContainer extends PolymerElement implements ColorPaletteEl
   }
 
   @override
-  selectedCellChanged(old) { }
+  selectedCellChanged(old) {
+    // no-op
+  }
 
   void _initAnsiCodeCells() {
     cells.forEach(cellXCodeChangeHandler);
