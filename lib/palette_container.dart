@@ -1,6 +1,7 @@
 library ansi_color_palette.palette_conainer;
 
 import 'dart:async';
+import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:color_palette/color_palette.dart';
 import 'package:color_palette/color_palette_cell.dart';
@@ -48,8 +49,8 @@ abstract class PaletteContainer extends PolymerElement implements ColorPaletteEl
   PaletteContainer.created() : super.created();
 
   @override
-  attached() {
-    super.attached();
+  ready() {
+    super.ready();
     _initAnsiCodeCells();
     // propagate events of property changes from [palette]
     palette.changes
@@ -74,13 +75,13 @@ abstract class PaletteContainer extends PolymerElement implements ColorPaletteEl
     cells.forEach(cellXCodeChangeHandler);
   }
 
-  selectByCode(AnsiColorCode code) {
+  void selectByCode(AnsiColorCode code) {
     final cell = (code == null) ? null : getCellByCode(code.code);
     selectedCell = cell;
   }
-  selectByCodeInt(int code) =>
+  void selectByCodeInt(int code) =>
       selectByCode(new AnsiColorCode(code));
-  selectByCodeString(String code) =>
+  void selectByCodeString(String code) =>
       selectByCode(new AnsiColorCode.fromCodeString(code, radix: 10));
 
   ColorPaletteCellElement getCellByCode(int code) =>
@@ -100,12 +101,14 @@ AnsiColorCode getXCodeAttr(ColorPaletteCellElement e) {
 void cellXCodeChangeHandler(ColorPaletteCellElement cell) {
   final code = getXCodeAttr(cell);
   if (code == null) {
-    cell.color = '';
-    cell.title = '';
+    cell
+        ..color = ''
+        ..title = '';
   } else {
     final rgb = code.color;
-    cell.color = rgb;
-    cell.title = 'code:${code.code}, ${rgb}';
+    cell
+        ..color = rgb
+        ..title = 'code:${code.code}, ${rgb}';
   }
 }
 

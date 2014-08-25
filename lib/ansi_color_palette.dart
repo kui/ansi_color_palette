@@ -20,11 +20,21 @@ class AnsiColorPaletteElement extends PolymerElement implements PaletteContainer
   MutationObserver _containerObserver;
   AnsiColorCode _ansiCode;
 
+  AnsiColorCode get ansiCode => _ansiCode;
+  set ansiCode(AnsiColorCode code) {
+    _ansiCode = code;
+    if (_container != null) _container.ansiCode = ansiCode;
+  }
+
+  PaletteContainer get _container => (shadowRoot == null) ? null :
+      shadowRoot.querySelector(
+          'color8-palette,color16-palette,color256-palette');
+
   AnsiColorPaletteElement.created() : super.created();
 
   @override
-  attached() {
-    super.attached();
+  ready() {
+    super.ready();
     _initPalette(_container);
     _containerObserver = new MutationObserver(_handleContainerMutation);
     _containerObserver.observe(shadowRoot, childList: true);
@@ -57,16 +67,6 @@ class AnsiColorPaletteElement extends PolymerElement implements PaletteContainer
       _ansiColorChangeStreamController.add(e);
     }
   }
-
-  AnsiColorCode get ansiCode => _ansiCode;
-  set ansiCode(AnsiColorCode code) {
-    _ansiCode = code;
-    if (_container != null) _container.ansiCode = ansiCode;
-  }
-
-  PaletteContainer get _container => (shadowRoot == null) ? null :
-      shadowRoot.querySelector(
-          'color8-palette,color16-palette,color256-palette');
 
   @override
   Stream<AnsiColorChangeEvent> get onColorChange =>
