@@ -60,7 +60,7 @@
       }
 
       polymerMain() {
-        querySelectorAll('color8-palette, color16-palette, color256-palette')
+        querySelectorAll('color8-palette, color16-palette, color256-palette, ansi-color-palette')
           .forEach((PaletteContainer c) {
             c.onColorChange.listen((e) {
               print('old: ${e.oldCode}, new: ${e.newCode}');
