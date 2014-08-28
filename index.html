@@ -174,7 +174,7 @@ html /deep/ [layout][start] {
   align-items: flex-start;
 }
 
-html /deep/ [layout][center] {
+html /deep/ [layout][center], html /deep/ [layout][center-center] {
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
@@ -194,7 +194,7 @@ html /deep/ [layout][start-justified] {
   justify-content: flex-start;
 }
 
-html /deep/ [layout][center-justified] {
+html /deep/ [layout][center-justified], html /deep/ [layout][center-center] {
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
@@ -323,7 +323,7 @@ html /deep/ [segment], html /deep/ segment {
 }
 .cell-border {
   box-sizing: border-box;
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  border: 1px solid rgba(128, 128, 128, 0.5);
   border-radius: 4px;
   padding: 3px;
   width: 100%;
@@ -674,18 +674,22 @@ html /deep/ [segment], html /deep/ segment {
     <p><a href="https://github.com/kui/ansi_color_palette/blob/master/example/index.html">Source code</a></p>
 
     <h1><code>&lt;color8-palette&gt;</code></h1>
+    <button id="deselect-color8">De-select</button>
     <color8-palette></color8-palette>
     Code: <input type="number" id="color8-code" min="0" max="7">
 
     <h1><code>&lt;color16-palette&gt;</code></h1>
+    <button id="deselect-color16">De-select</button>
     <color16-palette></color16-palette>
     Code: <input type="number" id="color16-code" min="0" max="15">
 
     <h1><code>&lt;color256-palette&gt;</code></h1>
+    <button id="deselect-color256">De-select</button>
     <color256-palette></color256-palette>
     Code: <input type="number" id="color256-code" min="0" max="255">
 
     <h1><code>&lt;ansi-color-palette&gt;</code></h1>
+    <button id="deselect-ansi-color">De-select</button>
     <p>
       colorSpace:
       <select id="color-space">
