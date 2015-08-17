@@ -1,3 +1,4 @@
+@HtmlImport('color8_palette.html')
 library ansi_color_palette.color8_palette;
 
 import 'package:polymer/polymer.dart';

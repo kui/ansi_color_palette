@@ -1,3 +1,4 @@
+@HtmlImport('ansi_color_palette.html')
 library ansi_color_palette;
 
 import 'dart:async';
@@ -7,6 +8,16 @@ import 'package:color_palette/color_palette.dart';
 import 'package:color_palette/color_palette_cell.dart';
 import 'ansi_color_code.dart';
 import 'palette_container.dart';
+
+/// this import statements use for [HtmlImport]
+import 'color8_palette.dart';
+import 'color16_palette.dart';
+import 'color256_palette.dart';
+forSuppressWarning() {
+  Color8PaletteElement;
+  Color16PaletteElement;
+  Color256PaletteElement;
+}
 
 @CustomTag('ansi-color-palette')
 class AnsiColorPaletteElement extends PolymerElement implements PaletteContainer {

@@ -1,3 +1,4 @@
+@HtmlImport('color256_palette.html')
 library ansi_color_palette.color256_palette;
 
 import 'dart:html';
