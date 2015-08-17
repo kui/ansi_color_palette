@@ -4,61 +4,15 @@
     <meta charset="utf-8">
     <title>ANSI Color Palette Example</title>
 
-    <script src="packages/web_components/platform.js"></script>
-    <script src="packages/web_components/dart_support.js"></script>
-
-    <link rel="import" href="packages/ansi_color_palette/color8_palette.html">
-    <link rel="import" href="packages/ansi_color_palette/color16_palette.html">
-    <link rel="import" href="packages/ansi_color_palette/color256_palette.html">
-    <link rel="import" href="packages/ansi_color_palette/ansi_color_palette.html">
-  </head>
-  <body>
-
-    <h1>ANSI Color Palette Example</h1>
-
-    <p><a href="https://github.com/kui/ansi_color_palette/blob/master/example/index.html">Source code</a></p>
-
-    <h1><code>&lt;color8-palette&gt;</code></h1>
-    <button id="deselect-color8">De-select</button>
-    <color8-palette></color8-palette>
-    Code: <input type="number" id="color8-code" min="0" max="7">
-
-    <h1><code>&lt;color16-palette&gt;</code></h1>
-    <button id="deselect-color16">De-select</button>
-    <color16-palette></color16-palette>
-    Code: <input type="number" id="color16-code" min="0" max="15">
-
-    <h1><code>&lt;color256-palette&gt;</code></h1>
-    <button id="deselect-color256">De-select</button>
-    <color256-palette></color256-palette>
-    Code: <input type="number" id="color256-code" min="0" max="255">
-
-    <h1><code>&lt;ansi-color-palette&gt;</code></h1>
-    <button id="deselect-ansi-color">De-select</button>
-    <p>
-      colorSpace:
-      <select id="color-space">
-        <option value="8">8</option>
-        <option value="16">16</option>
-        <option value="256">256</option>
-        <option value="invalid">Invalid</option>
-      </select>
-    </p>
-    <ansi-color-palette></ansi-color-palette>
-    Code: <input type="number" id="ansi-color-code" min="0" max="255">
-
     <script type="application/dart">
+      export 'package:polymer/init.dart';
       import 'package:polymer/polymer.dart';
       import 'package:ansi_color_palette/ansi_color_code.dart';
       import 'package:ansi_color_palette/ansi_color_palette.dart';
       import 'package:ansi_color_palette/palette_container.dart';
       import 'dart:html';
 
-      main() {
-        initPolymer()
-          .run(polymerMain);
-      }
-
+      @whenPolymerReady
       polymerMain() {
         querySelectorAll('color8-palette, color16-palette, color256-palette, ansi-color-palette')
           .forEach((PaletteContainer c) {
@@ -107,7 +61,41 @@
         });
       }
     </script>
+  </head>
+  <body unresolved>
 
+    <h1>ANSI Color Palette Example</h1>
+
+    <p><a href="https://github.com/kui/ansi_color_palette/blob/master/example/index.html">Source code</a></p>
+
+    <h1><code>&lt;color8-palette&gt;</code></h1>
+    <button id="deselect-color8">De-select</button>
+    <color8-palette></color8-palette>
+    Code: <input type="number" id="color8-code" min="0" max="7">
+
+    <h1><code>&lt;color16-palette&gt;</code></h1>
+    <button id="deselect-color16">De-select</button>
+    <color16-palette></color16-palette>
+    Code: <input type="number" id="color16-code" min="0" max="15">
+
+    <h1><code>&lt;color256-palette&gt;</code></h1>
+    <button id="deselect-color256">De-select</button>
+    <color256-palette></color256-palette>
+    Code: <input type="number" id="color256-code" min="0" max="255">
+
+    <h1><code>&lt;ansi-color-palette&gt;</code></h1>
+    <button id="deselect-ansi-color">De-select</button>
+    <p>
+      colorSpace:
+      <select id="color-space">
+        <option value="8">8</option>
+        <option value="16">16</option>
+        <option value="256">256</option>
+        <option value="invalid">Invalid</option>
+      </select>
+    </p>
+    <ansi-color-palette></ansi-color-palette>
+    Code: <input type="number" id="ansi-color-code" min="0" max="255">
     <a href="https://github.com/kui/ansi_color_palette"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
   </body>
 </html>
