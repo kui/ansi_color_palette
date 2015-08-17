@@ -41,6 +41,9 @@ class AnsiColorCode {
 
   @override
   bool operator ==(o) => (o is AnsiColorCode) && code == o.code;
+
+  @override
+  int get hashCode => code.hashCode;
 }
 
 const _STANDARD_COLORS =

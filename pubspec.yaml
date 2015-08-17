@@ -15,3 +15,5 @@ transformers:
 - polymer:
     entry_points:
     - example/index.html
+- $dart2js:
+    commandLineOptions: [--show-package-warnings]
